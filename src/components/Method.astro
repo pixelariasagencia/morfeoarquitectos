@@ -1,0 +1,73 @@
+---
+import Media from './Media.astro';
+import MegaType from './MegaType.astro';
+import Button from './Button.astro';
+import { img } from '../data/images';
+import { method, contactCta } from '../data/site';
+---
+<section class="method section">
+  <MegaType lines={[{ text: 'Método' }, { text: 'en cinco pasos', align: 'end' }]} />
+
+  <div class="method__grid">
+    <div class="method__img method__img--a"><Media img={img.process1} sizes="(max-width: 809px) 60vw, 22vw" /></div>
+
+    <div class="method__main">
+      <h3 class="t-statement" data-reveal="up">Un proceso cercano y claro.</h3>
+      <p class="t-body t-soft" data-reveal="up" style="--d:100">Escuchamos lo que necesitas, leemos las posibilidades del lugar y desarrollamos contigo una propuesta que puedas imaginar, comprender y hacer realidad.</p>
+      <ol class="method__steps">
+        {method.map((s, i) => (
+          <li data-reveal="up" style={`--d:${i * 80}`}>
+            <span class="method__num">({String(i + 1).padStart(2, '0')})</span>
+            <div>
+              <p class="method__title">{s.title}</p>
+              <p class="method__text">{s.text}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+      <div data-reveal="up"><Button href={contactCta.href} label={contactCta.label} variant="dark" /></div>
+    </div>
+
+    <div class="method__side">
+      <div class="method__img method__img--b"><Media img={img.process2} sizes="160px" small /></div>
+      <div class="method__img method__img--c"><Media img={img.process3} sizes="100px" small /></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .method { display: grid; gap: 80px; }
+  .method__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 412px) minmax(0, 1fr); gap: 40px; align-items: start; }
+  .method__img--a { width: min(303px, 100%); height: 450px; margin: 180px 0 0 auto; }
+  .method__img--a :global(.media-wrap), .method__img--b :global(.media-wrap), .method__img--c :global(.media-wrap) { height: 100%; }
+  .method__main { display: grid; gap: 24px; }
+  .method__steps { display: grid; gap: 16px; margin: 16px 0 24px; }
+  .method__steps li { display: flex; gap: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+  .method__num { flex: none; font-weight: 700; font-size: 1.125rem; }
+  .method__title { font-weight: 600; font-size: 1.125rem; letter-spacing: -0.03em; }
+  .method__text { margin-top: 4px; font-weight: 500; font-size: 1rem; line-height: 1.35; color: var(--ink-soft); }
+  .method__side { position: relative; height: 100%; min-height: 560px; }
+  .method__img--b { position: absolute; top: 60px; right: 12%; width: 144px; height: 154px; }
+  .method__img--c { position: absolute; bottom: 20px; right: 6%; width: 70px; height: 100px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .method__img--b, .method__img--c, .method__img--a {
+        animation: float linear both; animation-timeline: view(); animation-range: cover;
+      }
+      .method__img--c { animation-name: float-strong; }
+      @keyframes float { from { translate: 0 40px; } to { translate: 0 -40px; } }
+      @keyframes float-strong { from { translate: 0 90px; } to { translate: 0 -90px; } }
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .method__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+    .method__side { display: none; }
+  }
+  @media (max-width: 809px) {
+    .method { gap: 48px; }
+    .method__grid { grid-template-columns: minmax(0, 1fr); }
+    .method__img--a { order: 2; width: 70%; height: 360px; margin: 0; }
+  }
+</style>

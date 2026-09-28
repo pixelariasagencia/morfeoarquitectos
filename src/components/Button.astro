@@ -1,0 +1,23 @@
+---
+import Icon from './Icon.astro';
+import { url } from '../data/url';
+
+interface Props {
+  label: string;
+  href?: string;
+  variant?: 'light' | 'dark';
+  type?: 'submit' | 'button';
+  block?: boolean;
+  class?: string;
+}
+const { label, href, variant = 'light', type = 'button', block = false, class: className } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+<Tag
+  class:list={['btn', { 'btn--dark': variant === 'dark', 'btn--block': block }, className]}
+  href={href?.startsWith('/') ? url(href) : href}
+  type={href ? undefined : type}
+>
+  <span class="roll"><span>{label}</span><span aria-hidden="true">{label}</span></span>
+  <span class="btn__icon"><Icon name="arrow" /></span>
+</Tag>

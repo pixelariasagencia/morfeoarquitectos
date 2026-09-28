@@ -1,0 +1,9 @@
+---
+// Divide el texto en palabras en build para la entrada palabra por palabra (desenfoque -> nítido).
+interface Props { text: string; as?: string; class?: string; delay?: number }
+const { text, as: Tag = 'p', class: className, delay = 0 } = Astro.props;
+const words = text.split(/\s+/).filter(Boolean);
+---
+<Tag class={className} data-reveal="words" style={delay ? `--d:${delay}` : undefined}>
+  {words.map((w, i) => <><span class="w" style={`--i:${i}`}>{w}</span>{i < words.length - 1 ? ' ' : ''}</>)}
+</Tag>

@@ -1,0 +1,42 @@
+---
+import Media from './Media.astro';
+import type { Img } from '../data/images';
+
+interface Props { title: string; intro: string; image: Img }
+const { title, intro, image } = Astro.props;
+---
+<section class="phero dark">
+  <div class="phero__bg">
+    <Media img={image} eager reveal={false} />
+  </div>
+  <p class="phero__intro t-body">{intro}</p>
+  <h1 class="phero__title t-mega">{title}</h1>
+</section>
+
+<style>
+  .phero {
+    position: relative; isolation: isolate; overflow: hidden;
+    min-height: 100svh; display: flex; flex-direction: column; justify-content: space-between; gap: 40px;
+    padding: 140px var(--gutter) 20px;
+  }
+  .phero__bg { position: absolute; inset: 0; z-index: -1; }
+  .phero__bg :global(.media-wrap) { height: 100%; }
+  .phero__bg::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgb(22 23 20 / 0.55), rgb(22 23 20 / 0.15) 40%, rgb(22 23 20 / 0.6));
+  }
+  .phero__intro { max-width: 400px; }
+  .phero__title { transform-origin: left bottom; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .phero__bg :global(img) { animation: phero-in 1800ms var(--ease-out) both; }
+    @keyframes phero-in { from { transform: scale(1.12); } }
+    @supports (animation-timeline: scroll()) {
+      .phero__bg { animation: phero-parallax linear both; animation-timeline: scroll(root); animation-range: 0 100vh; }
+      @keyframes phero-parallax { to { transform: translateY(24%); } }
+    }
+  }
+  @media (max-width: 809px) {
+    .phero { padding-top: 110px; }
+  }
+</style>

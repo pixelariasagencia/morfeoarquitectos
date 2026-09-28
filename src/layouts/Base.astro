@@ -1,0 +1,42 @@
+---
+import '@fontsource-variable/geist';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { url } from '../data/url';
+
+interface Props { title: string; description: string; solidNav?: boolean }
+const { title, description, solidNav = false } = Astro.props;
+---
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="theme-color" content="#262824" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <div class="nav-sentinel" data-nav-sentinel aria-hidden="true"></div>
+    <Nav solid={solidNav} />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      import '../scripts/motion';
+    </script>
+  </body>
+</html>
+
+<style>
+  .nav-sentinel { position: absolute; top: 0; left: 0; width: 1px; height: 40px; pointer-events: none; }
+</style>

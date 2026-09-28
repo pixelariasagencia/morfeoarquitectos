@@ -1,0 +1,90 @@
+---
+import Media from './Media.astro';
+import Button from './Button.astro';
+import Icon from './Icon.astro';
+import { img } from '../data/images';
+import { nav, contact, contactCta } from '../data/site';
+import { url } from '../data/url';
+---
+<footer class="footer dark">
+  <div class="footer__top">
+    <Media class="footer__img" img={img.footer} sizes="200px" small />
+    <div class="footer__brand">
+      <p class="t-statement">Ideas que se vuelven lugares.</p>
+      <p class="t-lead t-soft">Estudio de arquitectura en Duitama, Boyacá. Casas, interiores y espacios de encuentro.</p>
+      <ul class="footer__contact">
+        <li><Icon name="pin" />{contact.city}</li>
+        <li><Icon name="phone" /><a href={contact.whatsappHref}>{contact.phone}</a></li>
+      </ul>
+    </div>
+    <nav class="footer__pages" aria-label="Páginas">
+      <p class="footer__heading">Páginas</p>
+      <ul>
+        {nav.map((item) => (
+          <li><a href={url(item.href)}><span class="roll"><span>{item.label}</span><span aria-hidden="true">{item.label}</span></span></a></li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="footer__cta">
+      <p class="footer__heading">¿Qué espacio imaginas?</p>
+      <Button href={contactCta.href} label={contactCta.label} variant="dark" />
+    </div>
+    <ul class="footer__legal">
+      <li><a href={url('/politica-de-datos')}>Privacidad y contacto</a></li>
+      <li class="footer__copy">© 2026 Morfeo Arquitectos</li>
+    </ul>
+  </div>
+
+  <p class="footer__word" data-reveal="letters" aria-hidden="true">
+    {'MORFEO'.split('').map((c, i) => <span style={`--i:${i}`}>{c}</span>)}
+  </p>
+</footer>
+
+<style>
+  .footer { background: var(--grafito-950); padding-top: 80px; overflow: hidden; }
+  .footer__top {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto; gap: 40px;
+    padding: 0 var(--gutter);
+  }
+  .footer :global(.footer__img) { width: 195px; height: 169px; margin-left: 7vw; }
+  .footer__brand { display: grid; gap: 14px; max-width: 460px; align-content: start; }
+  .footer__contact { display: grid; gap: 8px; margin-top: 18px; font-weight: 500; font-size: 1rem; }
+  .footer__contact li { display: flex; align-items: center; gap: 10px; color: var(--on-dark-soft); }
+  .footer__contact a { text-decoration: underline; text-underline-offset: 4px; }
+  .footer__contact :global(svg) { width: 18px; height: 18px; flex: none; }
+  .footer__heading { font-weight: 500; font-size: 1.875rem; line-height: 1; letter-spacing: -0.05em; }
+  .footer__pages { display: grid; gap: 20px; align-content: start; padding-right: 40px; }
+  .footer__pages ul { display: grid; gap: 10px; font-weight: 500; font-size: 1rem; }
+
+  .footer__bottom {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto; gap: 40px; align-items: end;
+    margin-top: 120px; padding: 0 var(--gutter);
+  }
+  .footer__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 20px; }
+  .footer__legal { grid-column: 2 / 4; display: flex; flex-wrap: wrap; gap: 12px 40px; font-weight: 500; font-size: 1rem; color: var(--on-dark-soft); }
+  .footer__legal a { color: var(--marfil); text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .footer__copy { margin-left: auto; }
+
+  .footer__word {
+    display: flex; justify-content: center; overflow: hidden;
+    margin-top: 24px; padding: 0 12px;
+    font-weight: 700; font-size: 23vw; line-height: 0.86; letter-spacing: -0.045em;
+  }
+  .footer__word span { display: block; }
+
+  @media (max-width: 1099px) {
+    .footer__top { grid-template-columns: minmax(0, 1fr) auto; }
+    .footer :global(.footer__img) { display: none; }
+    .footer__bottom { grid-template-columns: 1fr; margin-top: 72px; }
+    .footer__legal { grid-column: auto; }
+  }
+  @media (max-width: 809px) {
+    .footer { padding-top: 64px; }
+    .footer__top { grid-template-columns: 1fr; }
+    .footer__pages { padding-right: 0; }
+    .footer__copy { margin-left: 0; }
+  }
+</style>

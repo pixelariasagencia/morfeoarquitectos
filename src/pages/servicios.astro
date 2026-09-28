@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Services from '../components/Services.astro';
+import Method from '../components/Method.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img } from '../data/images';
+import { services } from '../data/site';
+---
+<Base title="Servicios · Morfeo Arquitectos" description="Diseño de vivienda, remodelaciones, interiores y espacios de encuentro con un proceso claro y cercano.">
+  <PageHero
+    title="Servicios"
+    intro="Cada proyecto tiene una manera propia de empezar. Acompañamos ideas de distintas escalas, desde una casa nueva hasta la transformación de un espacio existente."
+    image={img.heroServicios}
+  />
+
+  <Services
+    items={services}
+    compact
+    label="Qué hacemos"
+    intro={['Definimos el alcance con cada cliente para que el proceso, las decisiones y los entregables sean claros desde el comienzo.']}
+    note="Licencias, estudios técnicos, ingeniería y dirección de obra se definen para cada caso con profesionales habilitados y conforme a los requisitos aplicables."
+  />
+
+  <Method />
+  <Faq />
+  <CtaBand />
+</Base>

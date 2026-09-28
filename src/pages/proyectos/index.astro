@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Words from '../../components/Words.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { img } from '../../data/images';
+import { projects, categories } from '../../data/projects';
+---
+<Base title="Proyectos · Morfeo Arquitectos" description="Explora proyectos de vivienda, interiores, hospitalidad y espacios de encuentro de Morfeo Arquitectos en Boyacá.">
+  <PageHero
+    title="Proyectos"
+    intro="Arquitectura para habitar, transformar y compartir espacios en Boyacá."
+    image={img.heroProyectos}
+  />
+
+  <section class="works section">
+    <div class="works__head">
+      <p class="label">(<span>Portafolio</span>)</p>
+      <div class="works__intro">
+        <Words as="h2" class="t-statement justify" text="Cada idea merece un lugar propio. Explora ideas para habitar, transformar y compartir espacios en Boyacá." />
+        <p class="works__notice" data-reveal="up">Viviendas, interiores y lugares de encuentro que exploran la luz, la materialidad y la relación con el paisaje. Cada proyecto parte de una forma distinta de vivir el espacio.</p>
+      </div>
+    </div>
+
+    <div class="works__filters" data-filters role="group" aria-label="Filtrar proyectos">
+      {categories.map((c, i) => (
+        <button type="button" data-filter={c.id} aria-pressed={i === 0 ? 'true' : 'false'}>{c.label}</button>
+      ))}
+      <p class="works__count t-soft" data-filter-status aria-live="polite">{projects.length} proyectos</p>
+    </div>
+
+    <div class="works__grid">
+      {projects.map((p, i) => <ProjectCard project={p} filterable delay={(i % 2) * 120} />)}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .works { display: grid; gap: 64px; }
+  .works__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 850px); gap: 40px; }
+  .works__intro { display: grid; gap: 24px; }
+  .works__notice { max-width: 640px; padding-left: 16px; border-left: 3px solid var(--musgo); font-weight: 500; font-size: 1rem; line-height: 1.45; color: var(--ink-soft); }
+
+  .works__filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  .works__filters button {
+    height: 40px; padding: 0 16px; border-radius: 8px; border: 1px solid var(--line); background: none;
+    font-weight: 500; font-size: 1rem; cursor: pointer;
+    transition: background-color 200ms ease, color 200ms ease, transform 160ms var(--ease-out);
+  }
+  .works__filters button:active { transform: scale(0.97); }
+  .works__filters button[aria-pressed='true'] { background: var(--grafito); color: var(--marfil); border-color: transparent; }
+  @media (hover: hover) and (pointer: fine) {
+    .works__filters button[aria-pressed='false']:hover { background: color-mix(in oklab, var(--piedra) 50%, transparent); }
+  }
+  .works__count { margin-left: auto; font-weight: 500; font-size: 1rem; }
+
+  .works__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 110px 60px; align-items: start; }
+  .works__grid :global(.pcard) { --card-h: 470px; }
+  .works__grid :global(.pcard[data-tall]) { --card-h: 720px; }
+  .works__grid :global(.pcard[hidden]) { display: none; }
+
+  @media (max-width: 1099px) {
+    .works__head { grid-template-columns: 1fr; }
+    .works__grid { gap: 64px 32px; }
+  }
+  @media (max-width: 809px) {
+    .works__grid { grid-template-columns: 1fr; gap: 48px; }
+    .works__count { width: 100%; margin-left: 0; }
+  }
+</style>

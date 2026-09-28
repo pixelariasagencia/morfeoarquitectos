@@ -1,0 +1,23 @@
+---
+interface Props {
+  lines: { text: string; align?: 'start' | 'center' | 'end' }[];
+  as?: string;
+  class?: string;
+}
+const { lines, as: Tag = 'h2', class: className } = Astro.props;
+---
+<Tag class:list={['mega', className]} aria-label={lines.map((l) => l.text).join(' ')}>
+  {lines.map((l, i) => (
+    <span class="t-mega mega__line" data-reveal="mega" data-align={l.align ?? 'start'} style={`--d:${i * 120}`} aria-hidden="true">{l.text}</span>
+  ))}
+</Tag>
+
+<style>
+  .mega { display: flex; flex-direction: column; min-width: 0; }
+  .mega__line { display: block; width: max-content; max-width: 100%; }
+  .mega__line[data-align='center'] { align-self: center; }
+  .mega__line[data-align='end'] { align-self: flex-end; }
+  @media (max-width: 809px) {
+    .mega__line { width: auto; }
+  }
+</style>

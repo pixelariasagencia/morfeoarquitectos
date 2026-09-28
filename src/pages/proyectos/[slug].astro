@@ -1,0 +1,93 @@
+---
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import Words from '../../components/Words.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { projects, type Project } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((p) => ({ params: { slug: p.slug }, props: { project: p } }));
+}
+
+const { project: p } = Astro.props as { project: Project };
+const others = projects.filter((o) => o.slug !== p.slug);
+const related = [...others.filter((o) => o.category === p.category), ...others.filter((o) => o.category !== p.category)].slice(0, 2);
+const meta = [
+  { k: 'Tipo', v: p.type },
+  { k: 'Lugar', v: p.place },
+  ...(p.materials ? [{ k: 'Materiales', v: p.materials }] : []),
+];
+---
+<Base title={`${p.title} · Morfeo Arquitectos`} description={p.summary} solidNav>
+  <article class="ficha">
+    <div class="ficha__info">
+      <div class="ficha__sticky" data-sticky-fit>
+        <p class="ficha__badge">Arquitectura en Boyacá</p>
+        <h1 class="t-display" data-reveal="up">{p.title}</h1>
+        <Words class="t-statement" text={p.idea} delay={150} />
+        <dl class="ficha__meta" data-reveal="up" style="--d:300">
+          {meta.map((m) => (
+            <div><dt>{m.k}</dt><dd>{m.v}</dd></div>
+          ))}
+        </dl>
+        <div class="ficha__story" data-reveal="up" style="--d:400">
+          <h2>Reto</h2>
+          <p class="t-body justify">{p.challenge}</p>
+          <h2>Propuesta</h2>
+          <p class="t-body justify">{p.proposal}</p>
+          <h2>Rasgos</h2>
+          <ul>{p.features.map((f) => <li>{f}</li>)}</ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="ficha__gallery">
+      {p.gallery.map((g, i) => (
+        <Media class:list={['ficha__img', { 'ficha__img--short': i === 1 || i === 2 }]} img={g} sizes="(max-width: 1099px) 100vw, 46vw" eager={i === 0} />
+      ))}
+    </div>
+  </article>
+
+  <section class="related section">
+    <h2 class="t-title" data-reveal="up">Otros proyectos</h2>
+    <div class="related__grid">
+      {related.map((r, i) => <ProjectCard project={r} delay={i * 120} />)}
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .ficha { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 100px 20px 60px; }
+  .ficha__sticky { position: sticky; top: 100px; display: grid; gap: 28px; padding-bottom: 40px; }
+  .ficha__badge { justify-self: start; padding: 6px 10px; border-radius: 6px; background: var(--musgo); color: var(--marfil); font-weight: 600; font-size: 0.875rem; }
+  .ficha__meta { display: grid; }
+  .ficha__meta div { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .ficha__meta dt { font-family: var(--font-text); font-weight: 600; font-size: 1.375rem; letter-spacing: -0.02em; }
+  .ficha__meta dd { font-weight: 500; font-size: 1.125rem; text-align: right; }
+  .ficha__story { display: grid; gap: 10px; max-width: 640px; }
+  .ficha__story h2 { margin-top: 14px; font-weight: 700; font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tierra); }
+  .ficha__story ul { display: grid; gap: 6px; font-weight: 500; }
+  .ficha__story li::before { content: '/ '; color: var(--tierra); }
+
+  .ficha__gallery { display: grid; gap: 10px; }
+  .ficha__gallery :global(.ficha__img) { height: 760px; }
+  .ficha__gallery :global(.ficha__img--short) { height: 540px; }
+
+  .related { display: grid; gap: 48px; }
+  .related__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .related__grid :global(.pcard) { --card-h: 560px; }
+
+  @media (max-width: 1099px) {
+    .ficha { grid-template-columns: 1fr; padding: 100px var(--gutter) 40px; }
+    .ficha__sticky { position: static; }
+    .ficha__gallery :global(.ficha__img) { height: 70vh; }
+    .ficha__gallery :global(.ficha__img--short) { height: 44vh; }
+  }
+  @media (max-width: 809px) {
+    .ficha { padding-top: 96px; }
+    .related__grid { grid-template-columns: 1fr; }
+  }
+</style>

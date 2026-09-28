@@ -1,0 +1,125 @@
+---
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import Words from '../components/Words.astro';
+import Button from '../components/Button.astro';
+import MegaType from '../components/MegaType.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Services from '../components/Services.astro';
+import Method from '../components/Method.astro';
+import CardTrack from '../components/CardTrack.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img } from '../data/images';
+import { projects } from '../data/projects';
+import { services, clients } from '../data/site';
+---
+<Base
+  title="Morfeo Arquitectos · Arquitectura en Duitama, Boyacá"
+  description="Casas, interiores y espacios de encuentro que dan forma a nuevas maneras de vivir. Estudio de arquitectura en Duitama."
+>
+  <section class="hero dark">
+    <div class="hero__bg"><Media img={img.heroHome} eager reveal={false} /></div>
+    <div class="hero__content">
+      <div class="hero__copy">
+        <h1 class="t-display">Ideas que se vuelven lugares.</h1>
+        <p class="t-body hero__sub">Imaginamos contigo casas y espacios que dan forma a nuevas maneras de vivir. Desde Duitama, Boyacá.</p>
+      </div>
+      <div class="hero__cta"><Button href="/proyectos" label="Conoce nuestros proyectos" /></div>
+    </div>
+  </section>
+
+  <section class="intro section">
+    <div class="intro__top">
+      <p class="label">(<span>El estudio</span>)</p>
+      <Words as="h2" class="t-title justify" text="En Morfeo Arquitectos cada proyecto comienza con una pregunta sencilla: ¿cómo imaginas vivir aquí? Escuchamos, estudiamos el lugar y convertimos esa conversación en arquitectura clara, cálida y hecha a tu medida." />
+    </div>
+    <div class="intro__bottom">
+      <Media class="intro__img" img={img.introDetail} sizes="160px" small />
+      <Words class="t-statement justify intro__manifest" text="Todo espacio existe primero como una posibilidad. Nuestro trabajo es escucharla, darle claridad y convertirla en arquitectura que se pueda vivir." />
+      <div class="intro__cta" data-reveal="up"><Button href="/estudio" label="Conoce el estudio" variant="dark" /></div>
+    </div>
+  </section>
+
+  <section class="work section">
+    <div class="work__head">
+      <MegaType lines={[{ text: 'Portafolio', align: 'center' }, { text: 'Proyectos', align: 'end' }]} />
+      <div class="work__aside" data-reveal="up">
+        <p class="t-statement">Cada idea merece un lugar propio.</p>
+        <p class="t-body t-soft">Explora ideas para habitar, transformar y compartir espacios en Boyacá.</p>
+        <p class="work__tag">Arquitectura en Boyacá</p>
+        <Button href="/proyectos" label="Ver todos los proyectos" variant="dark" />
+      </div>
+    </div>
+    <div class="work__grid">
+      {projects.slice(0, 4).map((p, i) => <ProjectCard project={p} delay={(i % 2) * 120} />)}
+    </div>
+  </section>
+
+  <Services
+    items={services.slice(0, 3)}
+    label="Servicios"
+    intro={[
+      'De la idea al espacio.',
+      'Diseñamos viviendas, interiores y espacios de encuentro con una mirada integral. Cada decisión busca equilibrar belleza, uso y permanencia.',
+    ]}
+  />
+
+  <Method />
+
+  <CardTrack
+    heading={[{ text: 'Para quién' }, { text: 'diseñamos', align: 'center' }]}
+    items={clients}
+    label="Tipos de cliente"
+  />
+
+  <CtaBand />
+</Base>
+
+<style>
+  .hero { position: relative; isolation: isolate; overflow: hidden; min-height: 100svh; display: flex; align-items: flex-end; padding: 20px; }
+  .hero__bg { position: absolute; inset: 0; z-index: -1; }
+  .hero__bg :global(.media-wrap) { height: 100%; }
+  .hero__bg::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgb(22 23 20 / 0.72), rgb(22 23 20 / 0.08) 55%, rgb(22 23 20 / 0.35)); }
+  .hero__content { width: 100%; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+  .hero__copy { display: grid; gap: 20px; max-width: 640px; }
+  .hero__copy :global(h1) { max-width: 11ch; }
+  .hero__sub { max-width: 440px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__bg :global(img) { animation: hero-in 2000ms var(--ease-out) both; }
+    @keyframes hero-in { from { transform: scale(1.14); } }
+    @supports (animation-timeline: scroll()) {
+      .hero__bg { animation: hero-parallax linear both; animation-timeline: scroll(root); animation-range: 0 100vh; }
+      @keyframes hero-parallax { to { transform: translateY(22%); } }
+    }
+  }
+
+  .intro { display: grid; gap: 200px; }
+  .intro__top { display: grid; grid-template-columns: 215px minmax(0, 1fr); gap: 40px; }
+  .intro__bottom { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 460px) minmax(0, 1fr); gap: 40px; align-items: end; }
+  .intro :global(.intro__img) { width: 150px; height: 200px; }
+  .intro__cta { justify-self: end; }
+
+  .work { display: grid; gap: 80px; }
+  .work__head { position: relative; }
+  .work__aside { display: grid; gap: 14px; max-width: 360px; margin-top: -120px; }
+  .work__aside :global(.btn) { justify-self: start; margin-top: 12px; }
+  .work__tag { justify-self: start; padding: 6px 10px; border-radius: 6px; background: var(--musgo); color: var(--marfil); font-weight: 600; font-size: 0.875rem; }
+  .work__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+
+  @media (max-width: 1099px) {
+    .intro { gap: 120px; }
+    .intro__top { grid-template-columns: 1fr; gap: 24px; }
+    .intro__bottom { grid-template-columns: 150px minmax(0, 1fr); }
+    .intro__cta { grid-column: 1 / -1; justify-self: start; }
+    .work__aside { margin-top: 40px; }
+  }
+  @media (max-width: 809px) {
+    .hero { padding: 20px var(--gutter) 28px; }
+    .hero__content { flex-direction: column; align-items: flex-start; }
+    .intro { gap: 64px; }
+    .intro__bottom { grid-template-columns: 1fr; }
+    .work { gap: 48px; }
+    .work__grid { grid-template-columns: 1fr; }
+  }
+</style>

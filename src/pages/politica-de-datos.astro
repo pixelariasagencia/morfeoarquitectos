@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Privacidad y contacto · Morfeo Arquitectos" description="Conoce cómo funciona el contacto por WhatsApp en el sitio de Morfeo Arquitectos." solidNav>
+  <section class="policy section">
+    <h1 class="t-display">Privacidad y contacto</h1>
+    <p class="t-lead">Queremos que sepas qué ocurre cuando nos escribes desde este sitio.</p>
+    <div class="policy__detail">
+      <h2>Formulario de contacto</h2>
+      <p>Al completar el formulario, tu navegador prepara un mensaje con los datos que ingresaste y abre WhatsApp. Podrás revisarlo antes de enviarlo. El sitio no almacena las respuestas del formulario en un servidor.</p>
+      <h2>Enlaces a WhatsApp</h2>
+      <p>Los botones de contacto abren una conversación en WhatsApp con un saludo predefinido. La comunicación continúa en esa plataforma.</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .policy { display: grid; gap: 24px; max-width: 860px; padding-top: 160px; padding-bottom: 120px; }
+  .policy__detail { display: grid; gap: 16px; max-width: 680px; margin-top: 32px; font-size: 1.125rem; line-height: 1.55; }
+  .policy__detail h2 { margin-top: 20px; font-size: 1.5rem; letter-spacing: -0.03em; }
+</style>

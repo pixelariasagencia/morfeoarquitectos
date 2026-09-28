@@ -1,0 +1,36 @@
+---
+import { src, type Img } from '../data/images';
+
+interface Props {
+  img: Img;
+  sizes?: string;
+  class?: string;
+  reveal?: boolean;
+  eager?: boolean;
+  small?: boolean;
+  delay?: number;
+}
+const { img, sizes = '100vw', class: className, reveal = true, eager = false, small = false, delay = 0 } = Astro.props;
+const width = img.width ?? 1536;
+const height = img.height ?? 1024;
+const srcset = [320, 640, 960, 1280]
+  .filter((size) => size < width)
+  .map((size) => `${img.path.replace(/\.webp$/, `-${size}.webp`)} ${size}w`)
+  .concat(`${src(img)} ${width}w`)
+  .join(', ');
+---
+<figure class:list={['media-wrap', { 'media-wrap--sm': small }, className]}>
+  <div class="media" data-reveal={reveal ? 'media' : undefined} style={delay ? `--d:${delay}` : undefined}>
+    <img
+      src={src(img)}
+      srcset={srcset}
+      sizes={sizes}
+      alt={img.desc}
+      width={width}
+      height={height}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+      decoding="async"
+    />
+  </div>
+</figure>

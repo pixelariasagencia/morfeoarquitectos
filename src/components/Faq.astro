@@ -1,0 +1,38 @@
+---
+import Icon from './Icon.astro';
+import { faq } from '../data/site';
+---
+<section class="faq section">
+  <h2 class="t-title" data-reveal="up">Preguntas frecuentes</h2>
+  <div class="faq__list">
+    {faq.map((f, i) => (
+      <details name="faq" data-reveal="up" style={`--d:${i * 70}`}>
+        <summary><span class="t-lead">{f.q}</span><Icon name="plus" /></summary>
+        <p class="t-body t-soft">{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 40px; align-items: start; }
+  .faq__list { border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    padding: 24px 0; cursor: pointer; list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(svg) { width: 22px; height: 22px; flex: none; transition: transform 300ms var(--ease-out); }
+  details[open] summary :global(svg) { transform: rotate(45deg); }
+  details p { max-width: 640px; padding-bottom: 28px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    @supports selector(::details-content) {
+      .faq { interpolate-size: allow-keywords; }
+      details::details-content { height: 0; overflow: clip; transition: height 350ms var(--ease-out), content-visibility 350ms allow-discrete; }
+      details[open]::details-content { height: auto; }
+    }
+  }
+  @media (max-width: 809px) { .faq { grid-template-columns: 1fr; } }
+</style>

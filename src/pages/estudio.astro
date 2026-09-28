@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Media from '../components/Media.astro';
+import Words from '../components/Words.astro';
+import Button from '../components/Button.astro';
+import CardTrack from '../components/CardTrack.astro';
+import Method from '../components/Method.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { img } from '../data/images';
+import { principles, roles } from '../data/site';
+---
+<Base title="Estudio · Morfeo Arquitectos" description="Conoce cómo Morfeo Arquitectos convierte ideas en espacios habitables desde Duitama, Boyacá.">
+  <PageHero
+    title="Estudio"
+    intro="Damos forma a maneras de vivir. Partimos de las ideas, necesidades y aspiraciones de cada cliente y las traducimos en espacios precisos y habitables."
+    image={img.heroEstudio}
+  />
+
+  <section class="about section">
+    <div class="about__text">
+      <p class="label">(<span>Historia</span>)</p>
+      <div class="about__body">
+        <Words class="t-statement" text="Morfeo Arquitectos surge en Duitama con una idea sencilla: la arquitectura puede dar forma a lo que las personas imaginan para su vida." />
+        <p class="t-body justify" data-reveal="up">Nuestra práctica se mueve entre la imaginación del diseño contemporáneo y la calidez de la vida cotidiana. Nos interesan las casas que reciben bien la luz, los patios que reúnen a la familia y los materiales que se sienten cercanos. Trabajamos con atención al contexto y con conversaciones abiertas durante cada etapa del proyecto.</p>
+        <p class="t-body t-soft" data-reveal="up">Creemos que la mejor arquitectura se reconoce en cómo mejora la vida de quienes la habitan.</p>
+      </div>
+    </div>
+    <Media class="about__img" img={img.estudioAbout} sizes="(max-width: 809px) 100vw, 45vw" />
+  </section>
+
+  <section class="manifest dark section">
+    <Media class="manifest__img" img={img.estudioManifiesto} sizes="(max-width: 809px) 100vw, 45vw" />
+    <div class="manifest__side">
+      <div class="manifest__top">
+        <p class="label">(<span>Manifiesto</span>)</p>
+        <Media class="manifest__detail" img={img.estudioManifiestoDetalle} sizes="160px" small />
+      </div>
+      <div class="manifest__body">
+        <Words class="t-lead justify" text="Todo espacio existe primero como una posibilidad. Nuestro trabajo es escucharla, darle claridad y convertirla en arquitectura que se pueda vivir. Nos interesan los recorridos tranquilos, la luz que cambia durante el día, las reuniones alrededor de una mesa y los materiales que adquieren carácter con el tiempo." />
+        <div data-reveal="up"><Button href="/proyectos" label="Ver proyectos" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="purpose">
+    <div class="purpose__head section">
+      <p class="label">(<span>Promesa</span>)</p>
+      <Words class="t-statement justify" text="Escuchar lo que imaginas y darle forma mediante un proceso claro y cercano, hasta llegar a una arquitectura con carácter y hecha a tu medida." />
+    </div>
+    <div class="purpose__band dark">
+      <Media class="purpose__img" img={img.estudioPaisaje} sizes="100vw" />
+      <div class="purpose__cols">
+        <div data-reveal="up">
+          <h2 class="t-statement">Propósito</h2>
+          <p class="t-body">Convertir aspiraciones personales en espacios bellos, útiles y situados que mejoren la vida cotidiana.</p>
+        </div>
+        <div data-reveal="up" style="--d:120">
+          <h2 class="t-statement">Visión</h2>
+          <p class="t-body">Crear una práctica de referencia en Boyacá por la calidad del diseño, el cuidado del proceso y la capacidad de llevar una idea desde la imaginación hasta un lugar claro y habitable.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CardTrack heading={[{ text: 'Cinco' }, { text: 'principios', align: 'end' }]} items={principles} label="Principios de diseño" />
+
+  <section class="team section">
+    <div class="team__head">
+      <Words as="h2" class="t-title" text="Un estudio pequeño, con atención directa en cada encargo." />
+      <p class="t-body t-soft" data-reveal="up">Un responsable de proyecto mantiene el diálogo con el cliente; las revisiones se programan por etapas y los acuerdos se documentan. La participación de especialistas externos se define según las necesidades del encargo.</p>
+    </div>
+    <ul class="team__grid">
+      {roles.map((r, i) => (
+        <li>
+          <Media img={r.image} sizes="(max-width: 809px) 100vw, 25vw" delay={i * 90} />
+          <h3 class="t-lead">{r.title}</h3>
+          <p class="t-soft">{r.text}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <Method />
+  <CtaBand />
+</Base>
+
+<style>
+  .about { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+  .about__text { display: flex; flex-direction: column; justify-content: space-between; gap: 64px; }
+  .about__body { display: grid; gap: 24px; max-width: 633px; }
+  .about :global(.about__img) { height: 820px; }
+
+  .manifest { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding-block: 100px; }
+  .manifest :global(.manifest__img) { height: 600px; }
+  .manifest__side { display: flex; flex-direction: column; justify-content: space-between; gap: 48px; }
+  .manifest__top { display: flex; justify-content: space-between; align-items: start; gap: 24px; }
+  .manifest :global(.manifest__detail) { width: 150px; height: 200px; }
+  .manifest__body { display: grid; gap: 32px; }
+
+  .purpose__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 850px); gap: 40px; }
+  .purpose__band { position: relative; isolation: isolate; min-height: 816px; display: flex; align-items: flex-end; }
+  .purpose__band :global(.purpose__img) { position: absolute; inset: 0; z-index: -1; }
+  .purpose__band::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to top, rgb(22 23 20 / 0.8), rgb(22 23 20 / 0) 60%); }
+  .purpose__cols { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: 80px 117px; }
+  .purpose__cols > div { display: grid; gap: 16px; align-content: start; }
+
+  .team { display: grid; gap: 64px; }
+  .team__head { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+  .team__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .team__grid li { display: grid; gap: 12px; align-content: start; }
+  .team__grid :global(.media-wrap) { height: 420px; margin-bottom: 8px; }
+
+  @media (max-width: 1099px) {
+    .about, .manifest { grid-template-columns: 1fr; gap: 48px; }
+    .about :global(.about__img) { height: 600px; }
+    .purpose__head, .team__head { grid-template-columns: 1fr; }
+    .purpose__cols { padding: 64px var(--gutter); }
+    .team__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 809px) {
+    .manifest { grid-template-columns: minmax(0, 1fr); }
+    .manifest__side { min-width: 0; }
+    .manifest__top { flex-wrap: wrap; }
+    .about :global(.about__img), .manifest :global(.manifest__img) { height: 440px; }
+    .purpose__band { min-height: 640px; }
+    .purpose__cols { grid-template-columns: 1fr; gap: 32px; padding: 48px var(--gutter); }
+    .team__grid { grid-template-columns: 1fr; }
+    .team__grid :global(.media-wrap) { height: 320px; }
+  }
+</style>

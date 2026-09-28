@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Button from '../components/Button.astro';
+import Icon from '../components/Icon.astro';
+import { img } from '../data/images';
+import { contact } from '../data/site';
+
+const tipos = ['Vivienda nueva', 'Casa campestre', 'Remodelación o ampliación', 'Diseño interior', 'Espacio comercial u hospitalidad', 'Equipamiento o espacio colectivo', 'Otro'];
+const estados = ['Tengo una idea inicial', 'Estoy buscando terreno o inmueble', 'Ya tengo terreno o inmueble', 'Tengo planos o un diseño previo'];
+---
+<Base title="Contacto · Morfeo Arquitectos" description="Cuéntanos qué espacio imaginas para tu vivienda, remodelación o proyecto comercial en Duitama y Boyacá.">
+  <PageHero
+    title="Contacto"
+    intro="Cuéntanos dónde está tu proyecto, qué te gustaría lograr y en qué etapa te encuentras."
+    image={img.heroContacto}
+  />
+
+  <section class="contact dark">
+    <div class="contact__intro">
+      <h2 class="t-display" data-reveal="up">Hablemos de tu próximo espacio.</h2>
+      <p class="t-lead t-soft" data-reveal="up" style="--d:120">Cuéntanos tu idea y prepararemos un mensaje para conversar por WhatsApp.</p>
+      <ul class="contact__list" data-reveal="up" style="--d:220">
+        <li><Icon name="pin" />{contact.city}</li>
+        <li><Icon name="phone" /><a href={contact.whatsappHref}>WhatsApp: {contact.phone}</a></li>
+      </ul>
+    </div>
+
+    <div class="contact__form" data-reveal="up" style="--d:150">
+      <form data-contact-form data-whatsapp-number={contact.whatsappNumber}>
+        <div class="field">
+          <label for="f-nombre">Nombre</label>
+          <input id="f-nombre" name="nombre" type="text" autocomplete="name" required />
+        </div>
+        <div class="field">
+          <label for="f-correo">Correo electrónico <span>(opcional)</span></label>
+          <input id="f-correo" name="correo" type="email" autocomplete="email" />
+        </div>
+        <div class="field">
+          <label for="f-telefono">Teléfono <span>(opcional)</span></label>
+          <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" />
+        </div>
+        <div class="field">
+          <label for="f-municipio">Municipio</label>
+          <input id="f-municipio" name="municipio" type="text" autocomplete="address-level2" required />
+        </div>
+        <div class="field">
+          <label for="f-tipo">Tipo de proyecto</label>
+          <select id="f-tipo" name="tipo" required>
+            <option value="">Selecciona una opción</option>
+            {tipos.map((t) => <option>{t}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-estado">Estado actual del proyecto</label>
+          <select id="f-estado" name="estado" required>
+            <option value="">Selecciona una opción</option>
+            {estados.map((t) => <option>{t}</option>)}
+          </select>
+        </div>
+        <div class="field field--full">
+          <label for="f-mensaje">Mensaje</label>
+          <textarea id="f-mensaje" name="mensaje" rows="5" required></textarea>
+        </div>
+        <p class="contact__note field--full">Al continuar, tus respuestas se usarán para preparar un mensaje en WhatsApp. Revísalo allí antes de enviarlo.</p>
+        <div class="field--full"><Button type="submit" label="Continuar en WhatsApp" block /></div>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 580px); gap: 64px; padding: 140px var(--gutter) 120px; background: var(--grafito-950); }
+  .contact__intro { display: grid; gap: 24px; align-content: start; max-width: 520px; }
+  .contact__list { display: grid; gap: 12px; margin-top: 16px; font-weight: 500; }
+  .contact__list li { display: flex; align-items: center; gap: 10px; color: var(--on-dark-soft); }
+  .contact__list :global(svg) { width: 20px; height: 20px; flex: none; }
+  .contact__list a { text-decoration: underline; text-underline-offset: 4px; }
+  .contact__note { font-size: 0.9375rem; line-height: 1.45; }
+  .contact__note { color: var(--on-dark-soft); }
+
+  form { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 20px; }
+  .field { display: grid; gap: 8px; }
+  .field--full { grid-column: 1 / -1; }
+  label { font-weight: 500; font-size: 1rem; }
+  label span { color: var(--on-dark-soft); }
+  input:not([type='checkbox']), select, textarea {
+    width: 100%; padding: 12px 0; border: 0; border-bottom: 1px solid color-mix(in oklab, var(--marfil) 40%, transparent);
+    border-radius: 0; background: transparent; color: var(--marfil); font-size: 1rem;
+    transition: border-color 200ms ease;
+  }
+  select { appearance: none; cursor: pointer; background-image: linear-gradient(45deg, transparent 50%, var(--marfil) 50%), linear-gradient(135deg, var(--marfil) 50%, transparent 50%); background-position: calc(100% - 12px) 50%, calc(100% - 6px) 50%; background-size: 6px 6px; background-repeat: no-repeat; }
+  select option { color: var(--grafito); }
+  textarea { resize: vertical; min-height: 120px; }
+  input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; border-bottom-color: var(--piedra); box-shadow: 0 1px 0 var(--piedra); }
+  input:user-invalid, select:user-invalid, textarea:user-invalid { border-bottom-color: #e0a58f; }
+  @media (max-width: 1099px) { .contact { grid-template-columns: 1fr; } }
+  @media (max-width: 809px) {
+    .contact { padding: 96px var(--gutter) 80px; gap: 48px; }
+    form { grid-template-columns: 1fr; }
+  }
+</style>

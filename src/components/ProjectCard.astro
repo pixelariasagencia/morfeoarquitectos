@@ -1,0 +1,34 @@
+---
+import Media from './Media.astro';
+import type { Project } from '../data/projects';
+import { url } from '../data/url';
+
+interface Props { project: Project; delay?: number; class?: string; filterable?: boolean }
+const { project: p, delay = 0, class: className, filterable = false } = Astro.props;
+---
+<article class:list={['pcard', className]} data-cat={filterable ? p.category : undefined}>
+  <a href={url(`/proyectos/${p.slug}`)} class="pcard__link">
+    <div class="pcard__media">
+      <Media img={p.cover} sizes="(max-width: 809px) 100vw, 50vw" delay={delay} />
+    </div>
+    <div class="pcard__meta">
+      <h3>{p.title}</h3>
+      <p>{p.type}</p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .pcard__link { display: grid; gap: 10px; }
+  .pcard__media { height: var(--card-h, 720px); overflow: hidden; }
+  .pcard__media :global(.media-wrap) { height: 100%; transition: transform 900ms var(--ease-out); }
+  .pcard__meta { display: flex; justify-content: space-between; gap: 16px; font-weight: 700; font-size: 1.125rem; line-height: 1.1; letter-spacing: -0.02em; }
+  .pcard__meta h3 { font: inherit; }
+  .pcard__meta p { text-align: right; }
+  @media (hover: hover) and (pointer: fine) {
+    .pcard__link:hover .pcard__media :global(.media-wrap) { transform: scale(1.04); }
+  }
+  @media (max-width: 809px) {
+    .pcard__media { height: auto; aspect-ratio: 4 / 5; }
+  }
+</style>

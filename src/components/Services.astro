@@ -1,0 +1,76 @@
+---
+import Media from './Media.astro';
+import Words from './Words.astro';
+import type { Service } from '../data/site';
+
+interface Props { items: Service[]; label: string; intro: string[]; note?: string; compact?: boolean }
+const { items, label, intro, note, compact = false } = Astro.props;
+---
+<section class:list={['svc dark', { 'svc--compact': compact }]} data-services>
+  <header class="svc__head">
+    <p class="label">(<span>{label}</span>)</p>
+    <div class="svc__intro">
+      {intro.map((t, i) => <Words text={t} class="t-statement justify" delay={i * 200} />)}
+    </div>
+  </header>
+
+  <div class="svc__body">
+    <div class="svc__sticky" aria-hidden="true">
+      {items.map((s, i) => (
+        <div class:list={['svc__img', { 'is-active': i === 0 }]} data-svc-img>
+          <Media img={s.image} sizes="50vw" reveal={i === 0} />
+        </div>
+      ))}
+    </div>
+
+    <ol class="svc__panels">
+      {items.map((s, i) => (
+        <li class="svc__panel" data-svc-panel={i}>
+          <h3 class="t-title" data-reveal="up">{s.title}</h3>
+          <Media class="svc__inline" img={s.image} sizes="100vw" />
+          <div class="svc__text" data-reveal="up">
+            <p class="t-body justify">{s.text}</p>
+            <p class="svc__deliv"><span>Entregables orientativos</span>{s.deliverables}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+  {note && <p class="svc__note t-soft">{note}</p>}
+</section>
+
+<style>
+  .svc { padding: var(--section-y) var(--gutter) var(--section-y) 0; }
+  .svc__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 850px); gap: 40px; padding-left: var(--gutter); }
+  .svc__intro { display: grid; gap: 28px; }
+
+  .svc__body { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 80px; }
+  .svc__sticky { position: sticky; top: 88px; height: min(800px, calc(100svh - 108px)); }
+  .svc__img { position: absolute; inset: 0; opacity: 0; transform: scale(1.04); filter: blur(4px);
+    transition: opacity 700ms var(--ease-out), transform 900ms var(--ease-out), filter 700ms var(--ease-out); }
+  .svc__img.is-active { opacity: 1; transform: none; filter: none; }
+  .svc__img :global(.media-wrap) { height: 100%; }
+
+  .svc__panel {
+    min-height: 900px; padding: 40px; display: flex; flex-direction: column; justify-content: space-between; gap: 32px;
+    border-top: 1px solid var(--line-dark);
+  }
+  .svc--compact .svc__panel { min-height: 640px; }
+  .svc__panel:first-child { border-top: 0; }
+  .svc__text { display: grid; gap: 20px; max-width: 592px; }
+  .svc__deliv { display: grid; gap: 6px; font-weight: 500; font-size: 1rem; line-height: 1.35; color: var(--on-dark-soft); }
+  .svc__deliv span { font-weight: 700; color: var(--piedra); text-transform: uppercase; font-size: 0.8125rem; letter-spacing: 0.08em; }
+  .svc :global(.svc__inline) { display: none; }
+  .svc__note { max-width: 760px; margin: 60px 0 0 var(--gutter); font-size: 0.9375rem; line-height: 1.45; }
+
+  @media (max-width: 1099px) {
+    .svc__head { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 809px) {
+    .svc { padding-right: var(--gutter); }
+    .svc__body { grid-template-columns: 1fr; margin-top: 48px; }
+    .svc__sticky { display: none; }
+    .svc__panel, .svc--compact .svc__panel { min-height: 0; padding: 32px 0 40px var(--gutter); }
+    .svc :global(.svc__inline) { display: block; height: 360px; }
+  }
+</style>
